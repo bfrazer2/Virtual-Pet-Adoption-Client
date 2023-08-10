@@ -1,14 +1,24 @@
-import * as React from 'react';
+//React Imports
+import { FC, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+
+//MUI Imports
 import Box from '@mui/joy/Box';
 import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
 import ListItemButton from '@mui/joy/ListItemButton';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import HomeRounded from '@mui/icons-material/HomeRounded';
-import { AccountCircle, Logout } from '@mui/icons-material';
-
-import styles from './NavBar.module.scss';
+import { AccountCircle, Logout, Login } from '@mui/icons-material';
 import { Typography } from '@mui/joy';
+import { ButtonBase } from '@mui/material';
+
+//Auth0 Imports
+import { useAuth0 } from '@auth0/auth0-react';
+
+//Native Imports
+//Styles
+import styles from './NavBar.module.scss';
 
 type Options = {
   initialActiveIndex: null | number;
@@ -29,10 +39,10 @@ const useRovingIndex = (options?: Options) => {
       onKeyDown: () => {},
     },
   } = options || {};
-  const [activeIndex, setActiveIndex] = React.useState<number | null>(
+  const [activeIndex, setActiveIndex] = useState<number | null>(
     initialActiveIndex!,
   );
-  const targetRefs = React.useRef<Array<HTMLAnchorElement>>([]);
+  const targetRefs = useRef<Array<HTMLAnchorElement>>([]);
   const targets = targetRefs.current;
   const focusNext = () => {
     let newIndex = activeIndex! + 1;
@@ -77,11 +87,20 @@ const useRovingIndex = (options?: Options) => {
   };
 };
 
-export default function NavBar() {
+type NavBarProps = {
+  //
+}
+
+export const NavBar: FC<NavBarProps> = () => {
   const { getTargetProps } =
     useRovingIndex();
+
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
+
+  console.log('Is authenticated?', isAuthenticated);
+
   return (
-    <Box sx={{ minHeight: 50, backgroundColor: '#e0f2e9' }}>
+    <Box sx={{ minHeight: '50px', backgroundColor: '#e0f2e9' }}>
         <List
           role="menubar"
           orientation="horizontal"
@@ -94,52 +113,81 @@ export default function NavBar() {
         >
           <div className={styles.navBarWrapper}>
             <ListItem role="none">
-              <ListItemButton
-                role="menuitem"
-                {...getTargetProps(0)}
-                component="a"
-                href="#navigation-menu"
-                variant='solid'
-                color='success'
-              >
-                <ListItemDecorator>
-                  <HomeRounded />
-                </ListItemDecorator>
-                Home
-              </ListItemButton>
+              <ButtonBase component={Link} to="/dashboard">
+                <ListItemButton
+                  role="menuitem"
+                  {...getTargetProps(0)}
+                  variant='solid'
+                  color='success'
+                  sx={{ minHeight: '42px' }}
+                >
+                  <ListItemDecorator>
+                    <HomeRounded />
+                  </ListItemDecorator>
+                  Home
+                </ListItemButton>
+              </ButtonBase>
             </ListItem>
             <ListItem role="none">
-              <ListItemButton
-                role="menuitem"
-                {...getTargetProps(0)}
-                component="a"
-                href="#navigation-menu"
-                variant='solid'
-                color='success'
-              >
-                <ListItemDecorator>
-                  <AccountCircle />
-                </ListItemDecorator>
-                Account
-              </ListItemButton>
+              <ButtonBase component={Link} to="/account">
+                <ListItemButton
+                  role="menuitem"
+                  {...getTargetProps(0)}
+                  variant='solid'
+                  color='success'
+                  sx={{ minHeight: '42px' }}
+                >
+                  <ListItemDecorator>
+                    <AccountCircle />
+                  </ListItemDecorator>
+                  Account
+                </ListItemButton>
+              </ButtonBase>
             </ListItem>
           </div>
           <Typography color="success" level="h1" sx={{ textAlign: 'center' }}>Virtual Pet Adoption Center</Typography>
-          <ListItem role="none">
-            <ListItemButton
-              role="menuitem"
-              {...getTargetProps(0)}
-              component="a"
-              href="#navigation-menu"
-              variant='solid'
-              color='success'
-            >
-              <ListItemDecorator>
-                <Logout />
-              </ListItemDecorator>
-              Logout
-            </ListItemButton>
-          </ListItem>
+          {/* { !isAuthenticated ? ( */}
+            <ListItem role="none">
+              <ButtonBase>
+                <ListItemButton
+                  role="menuitem"
+                  {...getTargetProps(0)}
+                  component="a"
+                  href="#navigation-menu"
+                  variant='solid'
+                  color='success'
+                  sx={{ minHeight: '42px' }}
+                  onClick={() => loginWithRedirect()}
+                >
+                  <ListItemDecorator>
+                    <Login />
+                  </ListItemDecorator>
+                  Login
+                </ListItemButton>
+              </ButtonBase>
+            </ListItem>
+          {/* ) : ( */}
+            <ListItem role="none">
+              <ButtonBase>
+                <ListItemButton
+                  role="menuitem"
+                  {...getTargetProps(0)}
+                  component="a"
+                  href="#navigation-menu"
+                  variant='solid'
+                  color='success'
+                  sx={{ minHeight: '42px' }}
+                  // onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+                  onClick={() => logout({ logoutParams: { returnTo: "http://localhost:3000" } })}
+                >
+                  <ListItemDecorator>
+                    <Logout />
+                  </ListItemDecorator>
+                  Logout
+                </ListItemButton>
+              </ButtonBase>
+            </ListItem>
+          {/* )} */}
         </List>
     </Box>
   );

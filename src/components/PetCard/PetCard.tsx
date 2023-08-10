@@ -1,5 +1,4 @@
 //React Imports
-import React from 'react';
 import { useState, FC } from 'react';
 
 //Mui Imports
