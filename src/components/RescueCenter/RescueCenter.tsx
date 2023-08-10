@@ -23,7 +23,7 @@ export const RescueCenter = () => {
   }, []);
 
   return(
-    <Sheet>
+    <Sheet color='neutral'>
       <Grid container spacing={2} sx={{ flexGrow: 1 }}>
         {pets.map((pet, index) => (
           <Grid xs={4} key={index}>
