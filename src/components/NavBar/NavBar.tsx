@@ -10,7 +10,7 @@ import ListItemButton from '@mui/joy/ListItemButton';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import HomeRounded from '@mui/icons-material/HomeRounded';
 import { AccountCircle, Logout, Login } from '@mui/icons-material';
-import { Button, Typography } from '@mui/joy';
+import { Typography } from '@mui/joy';
 import { ButtonBase } from '@mui/material';
 
 //Auth0 Imports
@@ -95,7 +95,7 @@ export const NavBar: FC<NavBarProps> = () => {
   const { getTargetProps } =
     useRovingIndex();
 
-  const { loginWithRedirect, logout } = useAuth0()
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
 
   return (
     <Box sx={{ minHeight: '50px', backgroundColor: '#e0f2e9' }}>
@@ -144,7 +144,7 @@ export const NavBar: FC<NavBarProps> = () => {
             </ListItem>
           </div>
           <Typography color="success" level="h1" sx={{ textAlign: 'center' }}>Virtual Pet Adoption Center</Typography>
-          <div className={styles.navBarWrapper}>
+          { !isAuthenticated ? (
             <ListItem role="none">
               <ButtonBase>
                 <ListItemButton
@@ -164,6 +164,7 @@ export const NavBar: FC<NavBarProps> = () => {
                 </ListItemButton>
               </ButtonBase>
             </ListItem>
+          ) : (
             <ListItem role="none">
               <ButtonBase>
                 <ListItemButton
@@ -183,7 +184,7 @@ export const NavBar: FC<NavBarProps> = () => {
                 </ListItemButton>
               </ButtonBase>
             </ListItem>
-          </div>
+          )}
         </List>
     </Box>
   );
