@@ -1,0 +1,1 @@
+export const BASE_PATH = 'https://virtual-pet-adoption.onrender.com'
