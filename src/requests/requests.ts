@@ -1,18 +1,25 @@
 import type { Pet } from "./models";
 import { BASE_PATH } from "../constants"; 
 
+const getAccessToken = async () => {
+  const tokenResponse = await fetch(`${BASE_PATH}/token`, {
+    method: 'GET',
+    credentials: 'include',
+    mode: 'cors'
+  });
+
+  if (!tokenResponse.ok) {
+    throw new Error(`HTTP error! status: ${tokenResponse.status}`);
+  }
+
+  const { accessToken } = await tokenResponse.json();
+  return accessToken;
+}
+
+
 export const getUserPets = async (): Promise<Pet[] | undefined> => {
   try {
-    const tokenResponse = await fetch(`${BASE_PATH}/token`, {
-      method: 'GET',
-      credentials: 'include'
-    });
-
-    if (!tokenResponse.ok) {
-      throw new Error(`HTTP error! status: ${tokenResponse.status}`);
-    }
-
-    const { accessToken } = await tokenResponse.json();
+    const accessToken = await getAccessToken();
 
     const response = await fetch(`${BASE_PATH}/pets`, {
       method: 'GET',
@@ -36,16 +43,7 @@ export const getUserPets = async (): Promise<Pet[] | undefined> => {
 // Fetch a specific pet with its associated user
 export const getSpecificPet = async (petId: number): Promise<Pet | undefined> => {
   try {
-    const tokenResponse = await fetch(`${BASE_PATH}/token`, {
-      method: 'GET',
-      credentials: 'include'
-    });
-
-    if (!tokenResponse.ok) {
-      throw new Error(`HTTP error! status: ${tokenResponse.status}`);
-    }
-
-    const { accessToken } = await tokenResponse.json();
+    const accessToken = await getAccessToken();
 
     const response = await fetch(`${BASE_PATH}/pets/${petId}`, {
       method: 'GET',
@@ -68,16 +66,7 @@ export const getSpecificPet = async (petId: number): Promise<Pet | undefined> =>
 // Create a new pet
 export const createPet = async (petData: Omit<Pet, 'id'>): Promise<Pet | undefined> => {
   try {
-    const tokenResponse = await fetch(`${BASE_PATH}/token`, {
-      method: 'GET',
-      credentials: 'include'
-    });
-
-    if (!tokenResponse.ok) {
-      throw new Error(`HTTP error! status: ${tokenResponse.status}`);
-    }
-
-    const { accessToken } = await tokenResponse.json();
+    const accessToken = await getAccessToken();
 
     const response = await fetch(`${BASE_PATH}/pets`, {
       method: 'POST',
@@ -102,16 +91,7 @@ export const createPet = async (petData: Omit<Pet, 'id'>): Promise<Pet | undefin
 // Delete a specific pet
 export const deletePet = async (petId: number): Promise<string | undefined> => {
   try {
-    const tokenResponse = await fetch(`${BASE_PATH}/token`, {
-      method: 'GET',
-      credentials: 'include'
-    });
-
-    if (!tokenResponse.ok) {
-      throw new Error(`HTTP error! status: ${tokenResponse.status}`);
-    }
-
-    const { accessToken } = await tokenResponse.json();
+    const accessToken = await getAccessToken();
 
     const response = await fetch(`${BASE_PATH}/pets/${petId}`, {
       method: 'DELETE',
@@ -134,16 +114,7 @@ export const deletePet = async (petId: number): Promise<string | undefined> => {
 // Edit a specific pet
 export const editPet = async (petId: number, updatedData: Partial<Pet>): Promise<Pet | undefined> => {
   try {
-    const tokenResponse = await fetch(`${BASE_PATH}/token`, {
-      method: 'GET',
-      credentials: 'include'
-    });
-
-    if (!tokenResponse.ok) {
-      throw new Error(`HTTP error! status: ${tokenResponse.status}`);
-    }
-
-    const { accessToken } = await tokenResponse.json();
+    const accessToken = await getAccessToken();
 
     const response = await fetch(`${BASE_PATH}/pets/${petId}`, {
       method: 'PUT',

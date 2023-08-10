@@ -97,6 +97,8 @@ export const NavBar: FC<NavBarProps> = () => {
 
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
 
+  console.log('Is authenticated?', isAuthenticated);
+
   return (
     <Box sx={{ minHeight: '50px', backgroundColor: '#e0f2e9' }}>
         <List
@@ -144,7 +146,7 @@ export const NavBar: FC<NavBarProps> = () => {
             </ListItem>
           </div>
           <Typography color="success" level="h1" sx={{ textAlign: 'center' }}>Virtual Pet Adoption Center</Typography>
-          { !isAuthenticated ? (
+          {/* { !isAuthenticated ? ( */}
             <ListItem role="none">
               <ButtonBase>
                 <ListItemButton
@@ -164,7 +166,7 @@ export const NavBar: FC<NavBarProps> = () => {
                 </ListItemButton>
               </ButtonBase>
             </ListItem>
-          ) : (
+          {/* ) : ( */}
             <ListItem role="none">
               <ButtonBase>
                 <ListItemButton
@@ -175,7 +177,8 @@ export const NavBar: FC<NavBarProps> = () => {
                   variant='solid'
                   color='success'
                   sx={{ minHeight: '42px' }}
-                  onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+                  // onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+                  onClick={() => logout({ logoutParams: { returnTo: "http://localhost:3000" } })}
                 >
                   <ListItemDecorator>
                     <Logout />
@@ -184,7 +187,7 @@ export const NavBar: FC<NavBarProps> = () => {
                 </ListItemButton>
               </ButtonBase>
             </ListItem>
-          )}
+          {/* )} */}
         </List>
     </Box>
   );
