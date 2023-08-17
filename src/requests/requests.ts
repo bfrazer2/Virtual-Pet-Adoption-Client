@@ -8,12 +8,14 @@ const getAccessToken = async () => {
     mode: 'cors'
   });
 
+  console.log(tokenResponse.ok);
   if (!tokenResponse.ok) {
     throw new Error(`HTTP error! status: ${tokenResponse.status}`);
   }
 
   const { accessToken } = await tokenResponse.json();
-  return accessToken;
+  console.log(accessToken);
+  return accessToken.access_token;
 }
 
 
