@@ -95,100 +95,101 @@ export const NavBar: FC<NavBarProps> = () => {
   const { getTargetProps } =
     useRovingIndex();
 
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
+  const { isAuthenticated, loginWithRedirect, logout, isLoading } = useAuth0()
 
   console.log('Is authenticated?', isAuthenticated);
 
   return (
-    <Box sx={{ minHeight: '50px', backgroundColor: '#e0f2e9' }}>
-        <List
-          role="menubar"
-          orientation="horizontal"
-          sx={{
-            '--List-radius': '8px',
-            '--List-padding': '4px',
-            '--List-gap': '8px',
-            justifyContent: 'space-between'
-          }}
-        >
-          <div className={styles.navBarWrapper}>
-            <ListItem role="none">
-              <ButtonBase component={Link} to="/dashboard">
-                <ListItemButton
-                  role="menuitem"
-                  {...getTargetProps(0)}
-                  variant='solid'
-                  color='success'
-                  sx={{ minHeight: '42px' }}
-                >
-                  <ListItemDecorator>
-                    <HomeRounded />
-                  </ListItemDecorator>
-                  Home
-                </ListItemButton>
-              </ButtonBase>
-            </ListItem>
-            <ListItem role="none">
-              <ButtonBase component={Link} to="/account">
-                <ListItemButton
-                  role="menuitem"
-                  {...getTargetProps(0)}
-                  variant='solid'
-                  color='success'
-                  sx={{ minHeight: '42px' }}
-                >
-                  <ListItemDecorator>
-                    <AccountCircle />
-                  </ListItemDecorator>
-                  Account
-                </ListItemButton>
-              </ButtonBase>
-            </ListItem>
-          </div>
-          <Typography color="success" level="h1" sx={{ textAlign: 'center' }}>Virtual Pet Adoption Center</Typography>
-          {/* { !isAuthenticated ? ( */}
-            <ListItem role="none">
-              <ButtonBase>
-                <ListItemButton
-                  role="menuitem"
-                  {...getTargetProps(0)}
-                  component="a"
-                  href="#navigation-menu"
-                  variant='solid'
-                  color='success'
-                  sx={{ minHeight: '42px' }}
-                  onClick={() => loginWithRedirect()}
-                >
-                  <ListItemDecorator>
-                    <Login />
-                  </ListItemDecorator>
-                  Login
-                </ListItemButton>
-              </ButtonBase>
-            </ListItem>
-          {/* ) : ( */}
-            <ListItem role="none">
-              <ButtonBase>
-                <ListItemButton
-                  role="menuitem"
-                  {...getTargetProps(0)}
-                  component="a"
-                  href="#navigation-menu"
-                  variant='solid'
-                  color='success'
-                  sx={{ minHeight: '42px' }}
-                  // onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
-                  onClick={() => logout({ logoutParams: { returnTo: "http://localhost:3000" } })}
-                >
-                  <ListItemDecorator>
-                    <Logout />
-                  </ListItemDecorator>
-                  Logout
-                </ListItemButton>
-              </ButtonBase>
-            </ListItem>
-          {/* )} */}
-        </List>
-    </Box>
+    <>
+      {isLoading ? (<>...loading</>
+        ) : (
+        <Box sx={{ minHeight: '50px', backgroundColor: '#e0f2e9' }}>
+            <List
+              role="menubar"
+              orientation="horizontal"
+              sx={{
+                '--List-radius': '8px',
+                '--List-padding': '4px',
+                '--List-gap': '8px',
+                justifyContent: 'space-between'
+              }}
+            >
+              <div className={styles.navBarWrapper}>
+                <ListItem role="none">
+                  <ButtonBase component={Link} to="/dashboard">
+                    <ListItemButton
+                      role="menuitem"
+                      {...getTargetProps(0)}
+                      variant='solid'
+                      color='success'
+                      sx={{ minHeight: '42px' }}
+                    >
+                      <ListItemDecorator>
+                        <HomeRounded />
+                      </ListItemDecorator>
+                      Home
+                    </ListItemButton>
+                  </ButtonBase>
+                </ListItem>
+                <ListItem role="none">
+                  <ButtonBase component={Link} to="/account">
+                    <ListItemButton
+                      role="menuitem"
+                      {...getTargetProps(0)}
+                      variant='solid'
+                      color='success'
+                      sx={{ minHeight: '42px' }}
+                    >
+                      <ListItemDecorator>
+                        <AccountCircle />
+                      </ListItemDecorator>
+                      Account
+                    </ListItemButton>
+                  </ButtonBase>
+                </ListItem>
+              </div>
+              <Typography color="success" level="h1" sx={{ textAlign: 'center' }}>Virtual Pet Adoption Center</Typography>
+              {/* { !isAuthenticated ? ( */}
+                <ListItem role="none">
+                  <ButtonBase>
+                    <ListItemButton
+                      role="menuitem"
+                      {...getTargetProps(0)}
+                      variant='solid'
+                      color='success'
+                      sx={{ minHeight: '42px' }}
+                      onClick={() => loginWithRedirect()}
+                    >
+                      <ListItemDecorator>
+                        <Login />
+                      </ListItemDecorator>
+                      Login
+                    </ListItemButton>
+                  </ButtonBase>
+                </ListItem>
+              {/* ) : ( */}
+                <ListItem role="none">
+                  <ButtonBase>
+                    <ListItemButton
+                      role="menuitem"
+                      {...getTargetProps(0)}
+                      variant='solid'
+                      color='success'
+                      sx={{ minHeight: '42px' }}
+                      // onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+                      onClick={() => logout({ logoutParams: { returnTo: "http://localhost:3000" } })}
+                    >
+                      <ListItemDecorator>
+                        <Logout />
+                      </ListItemDecorator>
+                      Logout
+                    </ListItemButton>
+                  </ButtonBase>
+                </ListItem>
+              {/* )} */}
+            </List>
+        </Box>
+      )}
+    </>
   );
 }
