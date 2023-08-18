@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import Grid from '@mui/joy/Grid';
 
 import { PetCard } from '../PetCard/PetCard';
-import { getUserPets } from '../../requests/requests';
+import { useApi } from '../../requests/requests';
 
 import type { Pet } from '../../requests/models';
 import { Sheet } from '@mui/joy';
 
 export const RescueCenter = () => {
+
+  const { getUserPets } = useApi();
   const [pets, setPets] = useState<Pet[]>([]);
 
   useEffect(() => {
