@@ -15,9 +15,10 @@ import { AccountPage } from './components/AccountPage/AccountPage';
 import { NavBar } from './components/NavBar/NavBar';
 import { CallbackComponent } from './components/CallbackComponent/CallbackComponent';
 
-export const App = () => {
+//Context
+import { PetProvider } from './context/PetProvider';
 
-  const ProtectedDashboard = withAuthenticationRequired(DashBoard);
+export const App = () => {
 
   const { isLoading, error } = useAuth0();
 
@@ -30,7 +31,7 @@ export const App = () => {
   }
 
   return (
-    <div>
+      <PetProvider>
         <Router>
           <NavBar />
           <Routes>
@@ -40,6 +41,6 @@ export const App = () => {
             <Route path="/" element={<RedirectToDashboard />} />
           </Routes>
         </Router>
-    </div>
+      </PetProvider>
   );
 }
