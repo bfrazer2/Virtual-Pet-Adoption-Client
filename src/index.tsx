@@ -11,8 +11,11 @@ import './index.css';
 //Components
 import { App } from './App';
 
+
+
 const domain = process.env.REACT_APP_AUTH0_BASE_URL as string;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID as string;
+const audience = process.env.REACT_APP_AUTH0_AUDIENCE as string
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -21,8 +24,9 @@ root.render(
       domain={domain}
       clientId={clientId}
       authorizationParams={{
-        // redirect_uri: window.location.origin,
-        redirect_uri: "http://localhost:3000"
+        redirect_uri: `${window.location.origin}/callback`,
+        audience: audience,
+        scope: "read:current_user update:current_user_metadata"
       }}
     >
       <App />
