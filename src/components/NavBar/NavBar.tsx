@@ -148,7 +148,7 @@ export const NavBar: FC<NavBarProps> = () => {
               </ListItem>
             </div>
             <Typography color="success" level="h1" sx={{ textAlign: 'center' }}>Virtual Pet Adoption Center</Typography>
-            {/* { !isAuthenticated ? ( */}
+            { !isAuthenticated ? (
               <ListItem role="none">
                 <ButtonBase>
                   <ListItemButton
@@ -166,7 +166,7 @@ export const NavBar: FC<NavBarProps> = () => {
                   </ListItemButton>
                 </ButtonBase>
               </ListItem>
-            {/* ) : ( */}
+            ) : ( 
               <ListItem role="none">
                 <ButtonBase>
                   <ListItemButton
@@ -175,7 +175,6 @@ export const NavBar: FC<NavBarProps> = () => {
                     variant='solid'
                     color='success'
                     sx={{ minHeight: '42px' }}
-                    // onClick={() => logout({ logoutParams: {returnTo: window.location.origin }})}
                     onClick={() => logout({ logoutParams: {returnTo: window.location.origin }})}
                   >
                     <ListItemDecorator>
@@ -185,7 +184,7 @@ export const NavBar: FC<NavBarProps> = () => {
                   </ListItemButton>
                 </ButtonBase>
               </ListItem>
-            {/* )} */}
+            )}
           </List>
       </Box>
     </>
