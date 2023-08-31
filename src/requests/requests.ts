@@ -30,7 +30,7 @@ export const useApi = () => {
   };
   
   // Fetch a specific pet with its associated user
-  const getSpecificPet = async (petId: number): Promise<Pet | undefined> => {
+  const getSpecificPet = async (petId: number): Promise<Partial<Pet> | undefined> => {
     try {
       const accessToken = await getAccessTokenSilently();
   
@@ -54,7 +54,7 @@ export const useApi = () => {
   };
   
   // Create a new pet
-  const createPet = async (petData: Omit<Pet, 'id'>): Promise<Pet | undefined> => {
+  const createPet = async (petData: Omit<Pet, 'id' | 'weight' |'hunger' |'thirst' | 'friendship' | 'favorite'>): Promise<Partial<Pet> | undefined> => {
     try {
       const accessToken = await getAccessTokenSilently();
   
@@ -104,7 +104,7 @@ export const useApi = () => {
   };
   
   // Edit a specific pet
-  const editPet = async (petId: number, updatedData: Partial<Pet>): Promise<Pet | undefined> => {
+  const editPet = async (petId: number, updatedData: Partial<Pet>): Promise<Partial<Pet> | undefined> => {
     try {
       const accessToken = await getAccessTokenSilently();
   
