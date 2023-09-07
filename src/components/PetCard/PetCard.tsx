@@ -130,7 +130,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
   const buttonStyling = { ml: 'auto', alignSelf: 'center', fontSize: '24px', fontWeight: 600, width: '33%', padding: '2px',}
 
   return(
-    <Card variant="outlined" sx={{ width: 320 }}>
+    <Card variant="outlined" sx={{ minWidth: 250, margin: 0 }}>
       <div>
         <Typography level="title-lg">{pet.name}</Typography>
         <Typography level="body-sm">{pet.breed}</Typography>
@@ -166,7 +166,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
           </IconButton>
           <div className={styles.interactionButtons}>
             <Button
-              variant="solid"
+              variant="soft"
               size="md"
               color="success"
               aria-label="Explore Bahamas Islands"
@@ -176,7 +176,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
               Pet
             </Button>
             <Button
-              variant="solid"
+              variant="soft"
               size="md"
               color="success"
               aria-label="Explore Bahamas Islands"
@@ -186,7 +186,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
               Feed
             </Button>
             <Button
-              variant="solid"
+              variant="soft"
               size="md"
               color="success"
               aria-label="Explore Bahamas Islands"
@@ -214,7 +214,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
             },
           }}
         >
-          <Accordion defaultExpanded>
+          <Accordion>
             <AccordionSummary>
               <Typography
                 fontWeight="xl"

@@ -1,5 +1,17 @@
+.sheet {
+  > div {
+    border: 1px solid #D4D4D4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 16px;
+    width: 66%;
+    padding: 16px;
+  }
+}
+
 .sheetHeader {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin: 0 0 24px 0;
 }

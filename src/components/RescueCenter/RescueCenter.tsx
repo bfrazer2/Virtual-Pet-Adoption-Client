@@ -48,32 +48,37 @@ export const RescueCenter = () => {
           primary: {
             700: '#4CAF50'
           },
+          success: {
+            100: '#E0f2E9'
+          }
         },
       },
     },
   });
 
   return(
-    <Sheet color='neutral'>
-      <div className={styles.sheetHeader}>
-        <Typography
-        level='h2'
-        fontWeight="xl"
-        textColor="common.black"
-        sx={{ zIndex: '1000' }}>
-          Rescue Center
-        </Typography>
-        <AddPetModal/>
-      </div>
-      <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-        {pets.map((pet, index) => (
-          <Grid xs={4} key={index}>
-            <CssVarsProvider theme={petCardTheme}>
-              <PetCard pet={pet} />
-            </CssVarsProvider>
-          </Grid>
-        ))}
-      </Grid>
-    </Sheet>
+    <div className={styles.sheet}>
+      <Sheet color='neutral' variant='outlined'>
+        <div className={styles.sheetHeader}>
+          <Typography
+          level='h2'
+          fontWeight="xl"
+          textColor="#136C13"
+          sx={{ zIndex: '1000' }}>
+            Rescue Center
+          </Typography>
+          <AddPetModal/>
+        </div>
+        <Grid container spacing={3} sx={{ flexGrow: 1 }}>
+          {pets.map((pet, index) => (
+            <Grid xs='auto' key={index}>
+              <CssVarsProvider theme={petCardTheme}>
+                <PetCard pet={pet} />
+              </CssVarsProvider>
+            </Grid>
+          ))}
+        </Grid>
+      </Sheet>
+    </div>
   );
 };
