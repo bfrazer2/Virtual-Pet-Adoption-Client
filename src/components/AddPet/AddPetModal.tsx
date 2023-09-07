@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 import { TwitterPicker } from 'react-color';
 
 //MUI Imports
-import { Button, Input, Modal, ModalClose, Option, Select, Sheet, Grid } from '@mui/joy';
+import { Button, Input, Modal, ModalClose, Option, Select, Sheet } from '@mui/joy';
 
 //Native Imports
 //Requests
@@ -14,12 +14,9 @@ import { usePetContext } from '../../context/PetProvider';
 //Style Imports
 import styles from './AddPetModal.module.scss';
 
-//Type Imports
-import type { Pet } from '../../requests/models';
-
 export const AddPetModal = () => {
     //Server Requests
-    const { createPet } = useApi(); // Using the hook to get the createPet function
+    const { createPet } = useApi();
 
     //Modal State
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -83,6 +80,7 @@ export const AddPetModal = () => {
     };
 
     const handleSecondaryColorChange = (color: any) => {
+        console.log(color.hex);
         setSecondaryColor(color.hex);
     };
 
@@ -96,6 +94,8 @@ export const AddPetModal = () => {
             primaryColor: primaryColor,
             secondaryColor: secondaryColor,
         };
+
+        console.log(petData);
     
         try {
             const newPet = await createPet(petData);
