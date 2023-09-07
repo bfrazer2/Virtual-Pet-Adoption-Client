@@ -1,5 +1,5 @@
 //React Imports
-import { FC, useState, useRef, useEffect } from 'react';
+import { FC, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 //MUI Imports
