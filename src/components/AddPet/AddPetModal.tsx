@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 import { TwitterPicker } from 'react-color';
 
 //MUI Imports
-import { Button, Input, Modal, ModalClose, Option, Select, Sheet } from '@mui/joy';
+import { Button, Input, Modal, ModalClose, Option, Select, Sheet, Typography } from '@mui/joy';
 
 //Native Imports
 //Requests
@@ -129,8 +129,8 @@ export const AddPetModal = () => {
 
     return(
         <>
-            <Button variant="outlined" color="neutral" onClick={() => setIsOpen(true)}>
-            Open modal
+            <Button variant="solid" color="success" onClick={() => setIsOpen(true)}>
+                Rescue A Pet!
             </Button>
             <Modal
             aria-labelledby="modal-title"
@@ -183,8 +183,8 @@ export const AddPetModal = () => {
                         <Select 
                         placeholder="Species"
                         onChange={handleSpeciesChange}>
-                            <Option value="dog">Dog</Option>
-                            <Option value="cat">Cat</Option>
+                            <Option value="Dog">Dog</Option>
+                            <Option value="Cat">Cat</Option>
                         </Select>
                         <Button className={styles.submitButton} type="submit" color="success">Rescue this pet!</Button>
                     </form>
