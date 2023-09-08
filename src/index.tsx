@@ -24,7 +24,11 @@ root.render(
       domain={domain}
       clientId={clientId}
       authorizationParams={{
+<<<<<<< Updated upstream
         redirect_uri: `${window.location.origin}/callback`,
+=======
+        redirect_uri: 'https://virtual-pet-adoption-client.onrender.com/dashboard',
+>>>>>>> Stashed changes
         audience: audience,
         scope: "read:current_user update:current_user_metadata"
       }}
