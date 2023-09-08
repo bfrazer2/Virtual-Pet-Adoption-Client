@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: virtual-pet-adoption-client
+    env: static
+    buildCommand: yarn build
+    staticPublishPath: build
+    routes:
+      - src: /.*
+        dest: /index.html
