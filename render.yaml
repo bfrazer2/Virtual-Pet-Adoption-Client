@@ -6,4 +6,4 @@ services:
     staticPublishPath: build
     routes:
       - src: /.*
-        dest: /index.html
+        dest: /index.tsx
