@@ -11,8 +11,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { DashBoard } from './components/Dashboard/Dashboard';
 import { AccountPage } from './components/AccountPage/AccountPage';
 import { NavBar } from './components/NavBar/NavBar';
-import { CallbackComponent } from './components/CallbackComponent/CallbackComponent';
-
 //Context
 import { PetProvider } from './context/PetProvider';
 
