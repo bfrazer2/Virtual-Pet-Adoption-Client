@@ -36,7 +36,7 @@ export const App = () => {
           <NavBar />
           <Routes>
             <Route path="/dashboard" element={<DashBoard />} />
-            <Route path="/callback" element={<CallbackComponent />} />
+            <Route path="/callback" element={<RedirectToDashboard />} />
             <Route path="/account" element={<AccountPage />} />
             <Route path="/" element={<RedirectToDashboard />} />
           </Routes>

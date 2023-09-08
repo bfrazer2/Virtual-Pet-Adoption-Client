@@ -24,7 +24,7 @@ root.render(
       domain={domain}
       clientId={clientId}
       authorizationParams={{
-        redirect_uri: 'https://virtual-pet-adoption-client.onrender.com/dashboard',
+        redirect_uri: `${window.location.origin}/callback`,
         audience: audience,
         scope: "read:current_user update:current_user_metadata"
       }}
