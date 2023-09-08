@@ -4,7 +4,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 //Auth0 Imports
-import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { useAuth0 } from "@auth0/auth0-react";
 
 //Native Imports
@@ -13,7 +12,6 @@ import { DashBoard } from './components/Dashboard/Dashboard';
 import { RedirectToDashboard } from './components/Redirect/redirect';
 import { AccountPage } from './components/AccountPage/AccountPage';
 import { NavBar } from './components/NavBar/NavBar';
-import { CallbackComponent } from './components/CallbackComponent/CallbackComponent';
 
 //Context
 import { PetProvider } from './context/PetProvider';
@@ -36,9 +34,8 @@ export const App = () => {
           <NavBar />
           <Routes>
             <Route path="/dashboard" element={<DashBoard />} />
-            <Route path="/callback" element={<RedirectToDashboard />} />
             <Route path="/account" element={<AccountPage />} />
-            <Route path="/" element={<RedirectToDashboard />} />
+            <Route path="*" element={<RedirectToDashboard />} />
           </Routes>
         </Router>
       </PetProvider>
