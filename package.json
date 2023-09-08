@@ -39,9 +39,6 @@
     "vue-eslint-parser": "^9.3.1",
     "web-vitals": "^2.1.4"
   },
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
