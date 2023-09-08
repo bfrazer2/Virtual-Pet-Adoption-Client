@@ -1,4 +1,4 @@
-.sheet {
+.Box {
   > div {
     border: 1px solid #D4D4D4;
     border-radius: 8px;
@@ -7,11 +7,4 @@
     margin: 16px;
     padding: 16px;
   }
-}
-
-.sheetHeader {
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  margin: 0 0 24px 0;
 }
