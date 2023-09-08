@@ -3,7 +3,7 @@ services:
     name: virtual-pet-adoption-client
     env: static
     buildCommand: yarn build
-    staticPublishPath: build
+    staticPublishPath: ./build
     routes:
       - src: /.*
-        dest: /index.tsx
+        dest: /index.html
