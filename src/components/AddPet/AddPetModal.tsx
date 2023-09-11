@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 import { TwitterPicker } from 'react-color';
 
 //MUI Imports
-import { Button, Input, Modal, ModalClose, Option, Select, Sheet, Typography } from '@mui/joy';
+import { Button, Input, Modal, ModalClose, Option, Select, Sheet } from '@mui/joy';
 
 //Native Imports
 //Requests
@@ -86,7 +86,7 @@ export const AddPetModal = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-    
+
         const petData = {
             name: name,
             breed: species,
@@ -96,14 +96,14 @@ export const AddPetModal = () => {
         };
 
         console.log(petData);
-    
+
         try {
             const newPet = await createPet(petData);
             if (newPet) {
-              setIsOpen(false);
-              triggerRefresh();
+                setIsOpen(false);
+                triggerRefresh();
             } else {
-              console.error("Failed to create pet.");
+                console.error("Failed to create pet.");
             }
         } catch (error) {
             console.error("Error creating pet:", error);
@@ -119,70 +119,70 @@ export const AddPetModal = () => {
                 handleSecondaryColorClose();
             }
         };
-    
+
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-    
 
-    return(
+
+    return (
         <>
             <Button variant="solid" color="success" onClick={() => setIsOpen(true)}>
                 Rescue A Pet!
             </Button>
             <Modal
-            aria-labelledby="modal-title"
-            aria-describedby="modal-desc"
-            open={isOpen}
-            onClose={() => setIsOpen(false)}
-            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-desc"
+                open={isOpen}
+                onClose={() => setIsOpen(false)}
+                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
             >
                 <Sheet
                     variant="outlined"
                     sx={{
-                    minWidth: 275,
-                    maxWidth: 500,
-                    borderRadius: 'md',
-                    p: 3,
-                    boxShadow: 'lg',
+                        minWidth: 275,
+                        maxWidth: 500,
+                        borderRadius: 'md',
+                        p: 3,
+                        boxShadow: 'lg',
                     }}
                 >
                     <ModalClose
-                    variant="outlined"
-                    sx={{
-                        top: 'calc(-1/4 * var(--IconButton-size))',
-                        right: 'calc(-1/4 * var(--IconButton-size))',
-                        boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
-                        borderRadius: '50%',
-                        bgcolor: 'background.surface',
-                    }}
+                        variant="outlined"
+                        sx={{
+                            top: 'calc(-1/4 * var(--IconButton-size))',
+                            right: 'calc(-1/4 * var(--IconButton-size))',
+                            boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+                            borderRadius: '50%',
+                            bgcolor: 'background.surface',
+                        }}
                     />
                     <form className={styles.form} onSubmit={handleSubmit}>
-                        <Input placeholder="Name your new pet!" variant="outlined" color="neutral" required onChange={handleNameChange}/>
+                        <Input placeholder="Name your new pet!" variant="outlined" color="neutral" required onChange={handleNameChange} />
                         <Input placeholder="How old is your new pet?" variant="outlined" color="neutral" required onChange={handleAgeChange} />
                         <div className={styles.colorPickerButtonsWrapper}>
                             <div className={styles.colorPickerWrapper}>
-                                <Button ref={primaryButtonRef} onMouseDown={ handlePrimaryColorOpen } type="button" style={{ backgroundColor: primaryColor }}>Pet Primary Color</Button>
-                                { displayPrimaryColorPicker ? 
+                                <Button ref={primaryButtonRef} onMouseDown={handlePrimaryColorOpen} type="button" style={{ backgroundColor: primaryColor }}>Pet Primary Color</Button>
+                                {displayPrimaryColorPicker ?
                                     <div ref={primaryPickerRef} className={styles.popOver}>
-                                        <TwitterPicker onChange={handlePrimaryColorChange} color={primaryColor}/>
-                                    </div> 
-                                : null }
+                                        <TwitterPicker onChange={handlePrimaryColorChange} color={primaryColor} />
+                                    </div>
+                                    : null}
                             </div>
-                                <div className={styles.colorPickerWrapper}>
-                                    <Button ref={secondaryButtonRef} onMouseDown={ handleSecondaryColorOpen } type="button" style={{ backgroundColor: secondaryColor }}>Pet Secondary Color</Button>
-                                    { displaySecondaryColorPicker ? 
-                                        <div ref={secondaryPickerRef} className={styles.popOver}>
-                                            <TwitterPicker onChange={handleSecondaryColorChange} color={secondaryColor} />
-                                        </div> 
-                                : null }
+                            <div className={styles.colorPickerWrapper}>
+                                <Button ref={secondaryButtonRef} onMouseDown={handleSecondaryColorOpen} type="button" style={{ backgroundColor: secondaryColor }}>Pet Secondary Color</Button>
+                                {displaySecondaryColorPicker ?
+                                    <div ref={secondaryPickerRef} className={styles.popOver}>
+                                        <TwitterPicker onChange={handleSecondaryColorChange} color={secondaryColor} />
+                                    </div>
+                                    : null}
                             </div>
                         </div>
-                        <Select 
-                        placeholder="Species"
-                        onChange={handleSpeciesChange}>
+                        <Select
+                            placeholder="Species"
+                            onChange={handleSpeciesChange}>
                             <Option value="Dog">Dog</Option>
                             <Option value="Cat">Cat</Option>
                         </Select>

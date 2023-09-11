@@ -1,5 +1,5 @@
 //MUI Imports
-import { Box, Card, CardCover, CardContent, Typography } from '@mui/joy'
+import { Box, Card, CardCover } from '@mui/joy'
 
 //Native Imports
 //Styles

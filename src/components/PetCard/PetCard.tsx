@@ -2,12 +2,12 @@
 import { useState, FC } from 'react';
 
 //Mui Imports
-import { 
-  Typography, 
-  IconButton, 
-  CardContent, 
-  Card, 
-  Button, 
+import {
+  Typography,
+  IconButton,
+  CardContent,
+  Card,
+  Button,
   AspectRatio,
   AccordionGroup,
   Accordion,
@@ -20,7 +20,6 @@ import {
 } from '@mui/joy';
 import { Edit, Favorite } from '@mui/icons-material';
 import { CardActions } from '@mui/material';
-import { createTheme } from '@mui/system';
 
 //Native Imports
 //Requests
@@ -47,14 +46,14 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
     setIsFavorite(!isFavorite);
 
     try {
-      const newPet = await editPet(pet.id, {favorite: isFavorite});
+      const newPet = await editPet(pet.id, { favorite: isFavorite });
       if (newPet) {
         triggerRefresh();
       } else {
         console.error("Failed to create pet.");
       }
     } catch (error) {
-        console.error("Error setting pet as favorite: ", error);
+      console.error("Error setting pet as favorite: ", error);
     }
   };
 
@@ -65,14 +64,14 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
     }
 
     try {
-      const newPet = await editPet(pet.id, {hunger: newHunger});
+      const newPet = await editPet(pet.id, { hunger: newHunger });
       if (newPet) {
         triggerRefresh();
       } else {
         console.error("Failed to create pet.");
       }
     } catch (error) {
-        console.error("Error setting pet as favorite: ", error);
+      console.error("Error setting pet as favorite: ", error);
     }
   };
 
@@ -83,14 +82,14 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
     }
 
     try {
-      const newPet = await editPet(pet.id, {thirst: newThirst});
+      const newPet = await editPet(pet.id, { thirst: newThirst });
       if (newPet) {
         triggerRefresh();
       } else {
         console.error("Failed to create pet.");
       }
     } catch (error) {
-        console.error("Error setting pet as favorite: ", error);
+      console.error("Error setting pet as favorite: ", error);
     }
   };
 
@@ -101,14 +100,14 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
     }
 
     try {
-      const newPet = await editPet(pet.id, {friendship: newFriendship});
+      const newPet = await editPet(pet.id, { friendship: newFriendship });
       if (newPet) {
         triggerRefresh();
       } else {
         console.error("Failed to create pet.");
       }
     } catch (error) {
-        console.error("Error setting pet as favorite: ", error);
+      console.error("Error setting pet as favorite: ", error);
     }
   };
 
@@ -123,13 +122,13 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
       case (value >= 80 && value <= 100):
         return "primary";
       default:
-          console.log("Number is out of the specified range");
+        console.log("Number is out of the specified range");
     }
   };
 
-  const buttonStyling = { ml: 'auto', alignSelf: 'center', fontSize: '24px', fontWeight: 600, width: '33%', padding: '2px',}
+  const buttonStyling = { ml: 'auto', alignSelf: 'center', fontSize: '24px', fontWeight: 600, width: '33%', padding: '2px', }
 
-  return(
+  return (
     <Card variant="outlined" sx={{ minWidth: 250, margin: 0 }}>
       <div>
         <Typography level="title-lg">{pet.name}</Typography>
@@ -149,17 +148,18 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
           // src="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286"
           // srcSet="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286&dpr=2 2x"
           // loading="lazy"
-          // alt=""
+          alt="Pet Sprite"
         />
       </AspectRatio>
       <CardContent orientation="vertical">
-        <CardActions sx={{display: 'flex', padding: '8px 0 8px 0', gap: '4px'}}>
+        <CardActions sx={{ display: 'flex', padding: '8px 0 8px 0', gap: '4px' }}>
           <IconButton
             aria-label="Favorite This Pet"
-            variant= {isFavorite ? 'solid' : 'outlined'}
+            variant={isFavorite ? 'solid' : 'outlined'}
             size="sm"
-            sx={{ 
-                position: 'absolute', top: '0.875rem', right: '0.5rem', color: 'rgb(227,27,35)' }}
+            sx={{
+              position: 'absolute', top: '0.875rem', right: '0.5rem', color: 'rgb(227,27,35)'
+            }}
             onClick={handleFavoriteToggle}
           >
             <Favorite />
@@ -180,7 +180,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
               size="md"
               color="success"
               aria-label="Explore Bahamas Islands"
-              sx={ buttonStyling }
+              sx={buttonStyling}
               onClick={handleFeed}
             >
               Feed
@@ -190,7 +190,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
               size="md"
               color="success"
               aria-label="Explore Bahamas Islands"
-              sx={ buttonStyling }
+              sx={buttonStyling}
               onClick={handleWater}
             >
               Water
@@ -226,11 +226,11 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
             </AccordionSummary>
             <AccordionDetails variant="soft">
               <Stack spacing={2} sx={{ flex: 1 }}>
-                <LinearProgress 
-                  determinate 
-                  value={pet.hunger} 
-                  thickness={20} 
-                  color={getWellbeingColor(pet.hunger)} 
+                <LinearProgress
+                  determinate
+                  value={pet.hunger}
+                  thickness={20}
+                  color={getWellbeingColor(pet.hunger)}
                   sx={{ boxShadow: 'sm' }}>
                   <Typography
                     level="body-xs"
@@ -241,11 +241,11 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
                     Hunger: {pet.hunger}
                   </Typography>
                 </LinearProgress>
-                <LinearProgress 
-                  determinate 
-                  value={pet.thirst} 
+                <LinearProgress
+                  determinate
+                  value={pet.thirst}
                   thickness={20}
-                  color={getWellbeingColor(pet.thirst)} 
+                  color={getWellbeingColor(pet.thirst)}
                   sx={{ boxShadow: 'sm' }}>
                   <Typography
                     level="body-xs"
@@ -256,9 +256,9 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
                     Thirst: {pet.thirst}
                   </Typography>
                 </LinearProgress>
-                <LinearProgress 
-                  determinate 
-                  value={pet.friendship} 
+                <LinearProgress
+                  determinate
+                  value={pet.friendship}
                   thickness={20}
                   color={getWellbeingColor(pet.friendship)}
                   sx={{ boxShadow: 'sm' }}>
@@ -275,7 +275,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
             </AccordionDetails>
           </Accordion>
         </AccordionGroup>
-    </CardContent>
-  </Card>
+      </CardContent>
+    </Card>
   );
 };
