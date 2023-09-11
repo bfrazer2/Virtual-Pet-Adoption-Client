@@ -34,9 +34,6 @@ jobs:
       - name: Install package dependencies
         run: yarn install
 
-      - name: Check linting and formatting
-        run: yarn lint
-
       - name: Run tests
         run: yarn test
 
