@@ -96,13 +96,10 @@ export const NavBar: FC<NavBarProps> = () => {
     useRovingIndex();
 
   const { isAuthenticated, loginWithRedirect, logout, user, error } = useAuth0();
-  console.log(error);
-  console.log(user);
-  console.log(isAuthenticated);
 
   return (
     <>
-      <Box sx={{ minHeight: '50px', backgroundColor: '#e0f2e9' }}>
+      <Box className={styles.container}>
           <List
             role="menubar"
             orientation="horizontal"
@@ -121,7 +118,7 @@ export const NavBar: FC<NavBarProps> = () => {
                     {...getTargetProps(0)}
                     variant='solid'
                     color='success'
-                    sx={{ minHeight: '42px' }}
+                    sx={{ minHeight: '42px', marginLeft: '0px' }}
                   >
                     <ListItemDecorator>
                       <HomeRounded />
@@ -147,7 +144,7 @@ export const NavBar: FC<NavBarProps> = () => {
                 </ButtonBase>
               </ListItem>
             </div>
-            <Typography color="success" level="h1" sx={{ textAlign: 'center' }}>Virtual Pet Adoption Center</Typography>
+            <Typography level="h1" sx={{ textAlign: 'center', color: '#FFFFFF' }}>Virtual Pet Adoption Center</Typography>
             { !isAuthenticated ? (
               <ListItem role="none">
                 <ButtonBase>
@@ -156,7 +153,7 @@ export const NavBar: FC<NavBarProps> = () => {
                     {...getTargetProps(0)}
                     variant='solid'
                     color='success'
-                    sx={{ minHeight: '42px' }}
+                    sx={{ minHeight: '42px', marginRight: '12px' }}
                     onClick={() => loginWithRedirect()}
                   >
                     <ListItemDecorator>
@@ -174,7 +171,7 @@ export const NavBar: FC<NavBarProps> = () => {
                     {...getTargetProps(0)}
                     variant='solid'
                     color='success'
-                    sx={{ minHeight: '42px' }}
+                    sx={{ minHeight: '42px', marginRight: '16px' }}
                     onClick={() => logout({ logoutParams: {returnTo: window.location.origin }})}
                   >
                     <ListItemDecorator>

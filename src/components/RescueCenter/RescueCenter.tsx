@@ -2,18 +2,15 @@
 import { useEffect, useState } from 'react';
 
 //MUI Imports
-import { Grid, Sheet, CssVarsProvider, extendTheme, Typography } from '@mui/joy';
+import { Grid, CssVarsProvider, extendTheme } from '@mui/joy';
 
 //Native Imports
 import { PetCard } from '../PetCard/PetCard';
 import { useApi } from '../../requests/requests';
-import { AddPetModal } from '../AddPet/AddPetModal';
 //Context
 import { usePetContext } from '../../context/PetProvider';
 //Type
 import type { Pet } from '../../requests/models';
-//Styles
-import styles from './RescueCenter.module.scss';
 
 export const RescueCenter = () => {
   const [pets, setPets] = useState<Pet[]>([]);
@@ -57,28 +54,14 @@ export const RescueCenter = () => {
   });
 
   return(
-    <div className={styles.sheet}>
-      <Sheet color='neutral' variant='outlined'>
-        <div className={styles.sheetHeader}>
-          <Typography
-          level='h2'
-          fontWeight="xl"
-          textColor="#136C13"
-          sx={{ zIndex: '1000' }}>
-            Rescue Center
-          </Typography>
-          <AddPetModal/>
-        </div>
-        <Grid container spacing={3} sx={{ flexGrow: 1 }}>
-          {pets.map((pet, index) => (
-            <Grid xs='auto' key={index}>
-              <CssVarsProvider theme={petCardTheme}>
-                <PetCard pet={pet} />
-              </CssVarsProvider>
-            </Grid>
-          ))}
+    <Grid container spacing={3} sx={{ flexGrow: 1 }}>
+      {pets.map((pet, index) => (
+        <Grid xs='auto' key={index}>
+          <CssVarsProvider theme={petCardTheme}>
+            <PetCard pet={pet} />
+          </CssVarsProvider>
         </Grid>
-      </Sheet>
-    </div>
+      ))}
+    </Grid>
   );
 };

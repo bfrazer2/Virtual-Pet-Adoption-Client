@@ -1,10 +1,16 @@
-.Box {
-  > div {
-    border: 1px solid #D4D4D4;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    margin: 16px;
-    padding: 16px;
-  }
+.petHomeContainer {
+  padding-left: 0 !important;
+}
+
+.petHome {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  margin: 24px;
+}
+
+.petRoom {
+  width: 100vw;
+  min-height: 500px;
+  height: 80vh;
 }
