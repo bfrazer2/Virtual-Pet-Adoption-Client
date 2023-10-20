@@ -4,8 +4,6 @@ export type Pet = {
   breed: string;
   age: number;
   weight: number;
-  primaryColor: string;
-  secondaryColor: string;
   hunger: number;
   thirst: number;
   friendship: number;

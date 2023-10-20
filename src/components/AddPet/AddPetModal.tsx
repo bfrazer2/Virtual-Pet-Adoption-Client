@@ -1,9 +1,8 @@
 //React Imports
-import { useRef, useState, useEffect } from 'react';
-import { TwitterPicker } from 'react-color';
+import { useState, useEffect, useRef } from 'react';
 
 //MUI Imports
-import { Button, Input, Modal, ModalClose, Option, Select, Sheet } from '@mui/joy';
+import { Button, Input, Option, Select } from '@mui/joy';
 
 //Native Imports
 //Requests
@@ -13,31 +12,31 @@ import { usePetContext } from '../../context/PetProvider';
 
 //Style Imports
 import styles from './AddPetModal.module.scss';
+import { SpriteCreator } from '../Sprites/SpriteCreator';
 
 export const AddPetModal = () => {
+    //Refs
+    const modalSizeRef = useRef(null);
+
     //Server Requests
     const { createPet } = useApi();
-
-    //Modal State
-    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     //Form States
     const [species, setSpecies] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [age, setAge] = useState<string>('');
-    const [primaryColor, setPrimaryColor] = useState<string>('');
-    const [displayPrimaryColorPicker, setDisplayPrimaryColorPicker] = useState<boolean>(false);
-    const [secondaryColor, setSecondaryColor] = useState<string>('');
-    const [displaySecondaryColorPicker, setDisplaySecondaryColorPicker] = useState<boolean>(false);
-
-    //Refs
-    const primaryPickerRef = useRef<HTMLDivElement | null>(null);
-    const secondaryPickerRef = useRef<HTMLDivElement | null>(null);
-    const primaryButtonRef = useRef<HTMLButtonElement | null>(null);
-    const secondaryButtonRef = useRef<HTMLButtonElement | null>(null);
 
     //Context
     const triggerRefresh = usePetContext();
+
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+    useEffect(() => {
+        if (modalSizeRef.current) {
+            const { offsetWidth: width, offsetHeight: height } = modalSizeRef.current;
+            setDimensions({ width, height });
+        }
+    }, [modalSizeRef]);
 
     const handleSpeciesChange = (event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element> | null, value: any) => {
         if (value) {
@@ -53,37 +52,6 @@ export const AddPetModal = () => {
         setAge(event.target.value);
     };
 
-    const handlePrimaryColorOpen = () => {
-        if (displaySecondaryColorPicker) {
-            setDisplaySecondaryColorPicker(false);
-        }
-        setDisplayPrimaryColorPicker(!displayPrimaryColorPicker);
-    };
-
-    const handlePrimaryColorClose = () => {
-        setDisplayPrimaryColorPicker(false);
-    };
-
-    const handlePrimaryColorChange = (color: any) => {
-        setPrimaryColor(color.hex);
-    };
-
-    const handleSecondaryColorOpen = () => {
-        if (displayPrimaryColorPicker) {
-            setDisplayPrimaryColorPicker(false);
-        }
-        setDisplaySecondaryColorPicker(!displaySecondaryColorPicker);
-    };
-
-    const handleSecondaryColorClose = () => {
-        setDisplaySecondaryColorPicker(false);
-    };
-
-    const handleSecondaryColorChange = (color: any) => {
-        console.log(color.hex);
-        setSecondaryColor(color.hex);
-    };
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -91,8 +59,6 @@ export const AddPetModal = () => {
             name: name,
             breed: species,
             age: Number(age),
-            primaryColor: primaryColor,
-            secondaryColor: secondaryColor,
         };
 
         console.log(petData);
@@ -100,7 +66,6 @@ export const AddPetModal = () => {
         try {
             const newPet = await createPet(petData);
             if (newPet) {
-                setIsOpen(false);
                 triggerRefresh();
             } else {
                 console.error("Failed to create pet.");
@@ -110,52 +75,21 @@ export const AddPetModal = () => {
         }
     };
 
-    useEffect(() => {
-        const handleClickOutside = (event: { target: any; }) => {
-            if (primaryPickerRef.current && !primaryPickerRef.current.contains(event.target) && !primaryButtonRef.current?.contains(event.target)) {
-                handlePrimaryColorClose();
-            }
-            if (secondaryPickerRef.current && !secondaryPickerRef.current.contains(event.target) && !secondaryButtonRef.current?.contains(event.target)) {
-                handleSecondaryColorClose();
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
-
     return (
         <>
-            <form className={styles.form} onSubmit={handleSubmit}>
+            <form className={styles.form} onSubmit={handleSubmit} ref={modalSizeRef}>
                 <Input placeholder="Name your new pet!" variant="outlined" color="neutral" required onChange={handleNameChange} />
                 <Input placeholder="How old is your new pet?" variant="outlined" color="neutral" required onChange={handleAgeChange} />
-                <div className={styles.colorPickerButtonsWrapper}>
-                    <div className={styles.colorPickerWrapper}>
-                        <Button ref={primaryButtonRef} onMouseDown={handlePrimaryColorOpen} type="button" style={{ backgroundColor: primaryColor }}>Pet Primary Color</Button>
-                        {displayPrimaryColorPicker ?
-                            <div ref={primaryPickerRef} className={styles.popOver}>
-                                <TwitterPicker onChange={handlePrimaryColorChange} color={primaryColor} />
-                            </div>
-                            : null}
-                    </div>
-                    <div className={styles.colorPickerWrapper}>
-                        <Button ref={secondaryButtonRef} onMouseDown={handleSecondaryColorOpen} type="button" style={{ backgroundColor: secondaryColor }}>Pet Secondary Color</Button>
-                        {displaySecondaryColorPicker ?
-                            <div ref={secondaryPickerRef} className={styles.popOver}>
-                                <TwitterPicker onChange={handleSecondaryColorChange} color={secondaryColor} />
-                            </div>
-                            : null}
-                    </div>
-                </div>
                 <Select
+                    className={styles.select}
                     placeholder="Species"
                     onChange={handleSpeciesChange}>
                     <Option value="Dog">Dog</Option>
                     <Option value="Cat">Cat</Option>
                 </Select>
+                <div className={styles.petPreview}>
+                    <SpriteCreator dimensions={dimensions} />
+                </div>
                 <Button className={styles.submitButton} type="submit" color="success">Rescue this pet!</Button>
             </form>
         </>
