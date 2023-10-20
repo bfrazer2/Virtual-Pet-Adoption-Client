@@ -129,67 +129,35 @@ export const AddPetModal = () => {
 
     return (
         <>
-            <Button variant="solid" color="success" onClick={() => setIsOpen(true)}>
-                Rescue A Pet!
-            </Button>
-            <Modal
-                aria-labelledby="modal-title"
-                aria-describedby="modal-desc"
-                open={isOpen}
-                onClose={() => setIsOpen(false)}
-                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-            >
-                <Sheet
-                    variant="outlined"
-                    sx={{
-                        minWidth: 275,
-                        maxWidth: 500,
-                        borderRadius: 'md',
-                        p: 3,
-                        boxShadow: 'lg',
-                    }}
-                >
-                    <ModalClose
-                        variant="outlined"
-                        sx={{
-                            top: 'calc(-1/4 * var(--IconButton-size))',
-                            right: 'calc(-1/4 * var(--IconButton-size))',
-                            boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
-                            borderRadius: '50%',
-                            bgcolor: 'background.surface',
-                        }}
-                    />
-                    <form className={styles.form} onSubmit={handleSubmit}>
-                        <Input placeholder="Name your new pet!" variant="outlined" color="neutral" required onChange={handleNameChange} />
-                        <Input placeholder="How old is your new pet?" variant="outlined" color="neutral" required onChange={handleAgeChange} />
-                        <div className={styles.colorPickerButtonsWrapper}>
-                            <div className={styles.colorPickerWrapper}>
-                                <Button ref={primaryButtonRef} onMouseDown={handlePrimaryColorOpen} type="button" style={{ backgroundColor: primaryColor }}>Pet Primary Color</Button>
-                                {displayPrimaryColorPicker ?
-                                    <div ref={primaryPickerRef} className={styles.popOver}>
-                                        <TwitterPicker onChange={handlePrimaryColorChange} color={primaryColor} />
-                                    </div>
-                                    : null}
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <Input placeholder="Name your new pet!" variant="outlined" color="neutral" required onChange={handleNameChange} />
+                <Input placeholder="How old is your new pet?" variant="outlined" color="neutral" required onChange={handleAgeChange} />
+                <div className={styles.colorPickerButtonsWrapper}>
+                    <div className={styles.colorPickerWrapper}>
+                        <Button ref={primaryButtonRef} onMouseDown={handlePrimaryColorOpen} type="button" style={{ backgroundColor: primaryColor }}>Pet Primary Color</Button>
+                        {displayPrimaryColorPicker ?
+                            <div ref={primaryPickerRef} className={styles.popOver}>
+                                <TwitterPicker onChange={handlePrimaryColorChange} color={primaryColor} />
                             </div>
-                            <div className={styles.colorPickerWrapper}>
-                                <Button ref={secondaryButtonRef} onMouseDown={handleSecondaryColorOpen} type="button" style={{ backgroundColor: secondaryColor }}>Pet Secondary Color</Button>
-                                {displaySecondaryColorPicker ?
-                                    <div ref={secondaryPickerRef} className={styles.popOver}>
-                                        <TwitterPicker onChange={handleSecondaryColorChange} color={secondaryColor} />
-                                    </div>
-                                    : null}
+                            : null}
+                    </div>
+                    <div className={styles.colorPickerWrapper}>
+                        <Button ref={secondaryButtonRef} onMouseDown={handleSecondaryColorOpen} type="button" style={{ backgroundColor: secondaryColor }}>Pet Secondary Color</Button>
+                        {displaySecondaryColorPicker ?
+                            <div ref={secondaryPickerRef} className={styles.popOver}>
+                                <TwitterPicker onChange={handleSecondaryColorChange} color={secondaryColor} />
                             </div>
-                        </div>
-                        <Select
-                            placeholder="Species"
-                            onChange={handleSpeciesChange}>
-                            <Option value="Dog">Dog</Option>
-                            <Option value="Cat">Cat</Option>
-                        </Select>
-                        <Button className={styles.submitButton} type="submit" color="success">Rescue this pet!</Button>
-                    </form>
-                </Sheet>
-            </Modal>
+                            : null}
+                    </div>
+                </div>
+                <Select
+                    placeholder="Species"
+                    onChange={handleSpeciesChange}>
+                    <Option value="Dog">Dog</Option>
+                    <Option value="Cat">Cat</Option>
+                </Select>
+                <Button className={styles.submitButton} type="submit" color="success">Rescue this pet!</Button>
+            </form>
         </>
     );
 };
