@@ -37,6 +37,7 @@
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.64.2",
     "sass-loader": "^13.3.2",
+    "spritejs": "^3.8.3",
     "typescript": "^5.1.6",
     "vue-eslint-parser": "^9.3.1",
     "web-vitals": "^2.1.4"
@@ -73,6 +74,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/babel__core": "^7.20.1",
     "@types/react-color": "^3.0.6",
-    "@types/react-router-dom": "^5.3.3"
+    "@types/react-router-dom": "^5.3.3",
+    "file-loader": "^6.2.0"
   }
 }

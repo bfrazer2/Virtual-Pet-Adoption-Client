@@ -1,5 +1,5 @@
 //React Imports
-import { useState, FC } from 'react';
+import { useState, useEffect, FC } from 'react';
 
 //Mui Imports
 import {
@@ -37,9 +37,34 @@ type PetCardProps = {
 
 export const PetCard: FC<PetCardProps> = ({ pet }) => {
   const [isFavorite, setIsFavorite] = useState(pet.favorite)
+  const [backgroundImageStyles, setBackgroundImageStyles] = useState({});
 
   const { editPet } = useApi()
   const triggerRefresh = usePetContext();
+
+  useEffect(() => {
+    const colorFrameMapping = (pet: Pet) => {
+      let frames: string[] = [];
+      if (pet.color === "Coloration 1") {
+        frames = pet.breed === "Dog" ? ['000', '001', '002'] : ['048', '049', '050'];
+      } else if (pet.color === "Coloration 2") {
+        frames = pet.breed === "Dog" ? ['003', '004', '005'] : ['051', '052', '053'];
+      } else {
+        frames = pet.breed === "Dog" ? ['006', '007', '008'] : ['054', '055', '056'];
+      }
+
+      const yPos = pet.breed === "Dog" ? '30px' : '-70px';
+
+      setBackgroundImageStyles({
+        '--tile0': `url(/assets/tile${frames[0]}.png)`,
+        '--tile1': `url(/assets/tile${frames[1]}.png)`,
+        '--tile2': `url(/assets/tile${frames[2]}.png)`,
+        '--yPos': yPos
+      } as React.CSSProperties);
+    };
+
+    colorFrameMapping(pet);
+  }, [pet]);
 
 
   const handleFavoriteToggle = async () => {
@@ -143,14 +168,9 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
           <Edit />
         </IconButton>
       </div>
-      <AspectRatio minHeight="120px" maxHeight="200px">
-        <img
-          // src="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286"
-          // srcSet="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286&dpr=2 2x"
-          // loading="lazy"
-          alt="Pet Sprite"
-        />
-      </AspectRatio>
+      <AspectRatio ratio="1">
+        <div className={styles.spriteAnimation} style={backgroundImageStyles} />
+      </AspectRatio >
       <CardContent orientation="vertical">
         <CardActions sx={{ display: 'flex', padding: '8px 0 8px 0', gap: '4px' }}>
           <IconButton

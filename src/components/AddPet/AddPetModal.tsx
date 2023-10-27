@@ -1,5 +1,5 @@
 //React Imports
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 //MUI Imports
 import { Button, Input, Option, Select } from '@mui/joy';
@@ -9,10 +9,10 @@ import { Button, Input, Option, Select } from '@mui/joy';
 import { useApi } from '../../requests/requests';
 //Context
 import { usePetContext } from '../../context/PetProvider';
-
 //Style Imports
 import styles from './AddPetModal.module.scss';
-import { SpriteCreator } from '../Sprites/SpriteCreator';
+//Components
+import { PreviewPetCard } from '../PreviewPetCard/PreviewPetCard';
 
 export const AddPetModal = () => {
     //Refs
@@ -22,25 +22,23 @@ export const AddPetModal = () => {
     const { createPet } = useApi();
 
     //Form States
-    const [species, setSpecies] = useState<string>('');
+    const [species, setSpecies] = useState<string>('Dog');
     const [name, setName] = useState<string>('');
     const [age, setAge] = useState<string>('');
+    const [color, setColor] = useState<string>('Coloration 1');
 
     //Context
     const triggerRefresh = usePetContext();
 
-    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-
-    useEffect(() => {
-        if (modalSizeRef.current) {
-            const { offsetWidth: width, offsetHeight: height } = modalSizeRef.current;
-            setDimensions({ width, height });
-        }
-    }, [modalSizeRef]);
-
     const handleSpeciesChange = (event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element> | null, value: any) => {
         if (value) {
             setSpecies(value);
+        }
+    };
+
+    const handleColorChange = (event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element> | null, value: any) => {
+        if (value) {
+            setColor(value);
         }
     };
 
@@ -59,6 +57,7 @@ export const AddPetModal = () => {
             name: name,
             breed: species,
             age: Number(age),
+            color: color,
         };
 
         console.log(petData);
@@ -83,12 +82,23 @@ export const AddPetModal = () => {
                 <Select
                     className={styles.select}
                     placeholder="Species"
-                    onChange={handleSpeciesChange}>
+                    onChange={handleSpeciesChange}
+                    value={species}>
                     <Option value="Dog">Dog</Option>
                     <Option value="Cat">Cat</Option>
                 </Select>
+                <Select
+                    className={styles.select}
+                    placeholder="Color"
+                    onChange={handleColorChange}
+                    value={color}
+                    disabled={!species}>
+                    <Option value="Coloration 1">Coloration 1</Option>
+                    <Option value="Coloration 2">Coloration 2</Option>
+                    <Option value="Coloration 3">Coloration 3</Option>
+                </Select>
                 <div className={styles.petPreview}>
-                    <SpriteCreator dimensions={dimensions} />
+                    <PreviewPetCard previewPet={{ name, age: Number(age), breed: species, color }} />
                 </div>
                 <Button className={styles.submitButton} type="submit" color="success">Rescue this pet!</Button>
             </form>
