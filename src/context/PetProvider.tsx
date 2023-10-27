@@ -1,20 +1,35 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState, useContext } from 'react';
+import { Pet } from '../requests/models';
 
-const PetContext = React.createContext(() => {});
+interface PetContextValue {
+  petAdded: boolean;
+  setPetAdded: (value: boolean) => void;
+  triggerRefresh: () => void;
+  pets: Pet[];
+  setPets: (pets: Pet[]) => void;
+}
+
+const PetContext = React.createContext<PetContextValue | undefined>(undefined);
 
 export const usePetContext = () => {
-  return React.useContext(PetContext);
+  const context = useContext(PetContext);
+  if (!context) {
+    throw new Error('usePetContext must be used within a PetProvider');
+  }
+  return context;
 }
 
 export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [refreshPets, setRefreshPets] = React.useState(false);
+  const [refreshPets, setRefreshPets] = useState(false);
+  const [petAdded, setPetAdded] = useState(false);
+  const [pets, setPets] = useState<Pet[]>([]);
 
   const triggerRefresh = () => {
     setRefreshPets(!refreshPets);
   }
 
   return (
-    <PetContext.Provider value={triggerRefresh}>
+    <PetContext.Provider value={{ petAdded, setPetAdded, triggerRefresh, pets, setPets }}>
       {children}
     </PetContext.Provider>
   );

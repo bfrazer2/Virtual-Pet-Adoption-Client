@@ -21,3 +21,22 @@
   flex-direction: row;
   gap: 24px;
 }
+
+.fade-enter,
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.fade-enter-active,
+.fade-exit {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.rescueCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
