@@ -10,11 +10,11 @@ import { useApi } from '../../requests/requests';
 //Context
 import { usePetContext } from '../../context/PetProvider';
 //Style Imports
-import styles from './AddPetModal.module.scss';
+import styles from './AddPetForm.module.scss';
 //Components
 import { PreviewPetCard } from '../PreviewPetCard/PreviewPetCard';
 
-export const AddPetModal = () => {
+export const AddPetForm = () => {
     //Refs
     const modalSizeRef = useRef(null);
 
@@ -28,7 +28,7 @@ export const AddPetModal = () => {
     const [color, setColor] = useState<string>('Coloration 1');
 
     //Context
-    const triggerRefresh = usePetContext();
+    const { triggerRefresh, setPetAdded } = usePetContext();
 
     const handleSpeciesChange = (event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element> | null, value: any) => {
         if (value) {
@@ -60,11 +60,14 @@ export const AddPetModal = () => {
             color: color,
         };
 
-        console.log(petData);
-
         try {
             const newPet = await createPet(petData);
             if (newPet) {
+                setSpecies('Dog');
+                setName('');
+                setAge('');
+                setColor('Coloration 1');
+                setPetAdded(true);
                 triggerRefresh();
             } else {
                 console.error("Failed to create pet.");
@@ -77,8 +80,20 @@ export const AddPetModal = () => {
     return (
         <>
             <form className={styles.form} onSubmit={handleSubmit} ref={modalSizeRef}>
-                <Input placeholder="Name your new pet!" variant="outlined" color="neutral" required onChange={handleNameChange} />
-                <Input placeholder="How old is your new pet?" variant="outlined" color="neutral" required onChange={handleAgeChange} />
+                <Input
+                    placeholder="Name your new pet!"
+                    variant="outlined"
+                    color="neutral"
+                    required
+                    onChange={handleNameChange}
+                    value={name} />
+                <Input
+                    placeholder="How old is your new pet?"
+                    variant="outlined"
+                    color="neutral"
+                    required
+                    onChange={handleAgeChange}
+                    value={age} />
                 <Select
                     className={styles.select}
                     placeholder="Species"

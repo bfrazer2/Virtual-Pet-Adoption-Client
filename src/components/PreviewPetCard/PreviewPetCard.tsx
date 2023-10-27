@@ -48,7 +48,7 @@ export const PreviewPetCard: React.FC<PreviewPetCardProps> = ({ previewPet }) =>
   }, [previewPet]);
 
   return (
-    <Card variant="outlined" sx={{ minWidth: 250, margin: 0 }}>
+    <Card variant="outlined" sx={{ margin: 0 }}>
       <div>
         <Typography level="title-lg">{previewPet.name}</Typography>
         <Typography level="body-sm">{previewPet.breed}</Typography>

@@ -40,7 +40,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
   const [backgroundImageStyles, setBackgroundImageStyles] = useState({});
 
   const { editPet } = useApi()
-  const triggerRefresh = usePetContext();
+  const { triggerRefresh } = usePetContext();
 
   useEffect(() => {
     const colorFrameMapping = (pet: Pet) => {
@@ -75,7 +75,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
       if (newPet) {
         triggerRefresh();
       } else {
-        console.error("Failed to create pet.");
+        console.error("Failed to set favorite.");
       }
     } catch (error) {
       console.error("Error setting pet as favorite: ", error);
@@ -93,10 +93,10 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
       if (newPet) {
         triggerRefresh();
       } else {
-        console.error("Failed to create pet.");
+        console.error("Failed to feed pet.");
       }
     } catch (error) {
-      console.error("Error setting pet as favorite: ", error);
+      console.error("Error feeding pet: ", error);
     }
   };
 
@@ -111,10 +111,10 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
       if (newPet) {
         triggerRefresh();
       } else {
-        console.error("Failed to create pet.");
+        console.error("Failed to give pet water.");
       }
     } catch (error) {
-      console.error("Error setting pet as favorite: ", error);
+      console.error("Error giving pet water: ", error);
     }
   };
 
@@ -129,10 +129,10 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
       if (newPet) {
         triggerRefresh();
       } else {
-        console.error("Failed to create pet.");
+        console.error("Failed to interact with pet.");
       }
     } catch (error) {
-      console.error("Error setting pet as favorite: ", error);
+      console.error("Error interaction with pet: ", error);
     }
   };
 
