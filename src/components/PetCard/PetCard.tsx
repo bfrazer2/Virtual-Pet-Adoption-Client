@@ -43,7 +43,7 @@ export const PetCard: FC<PetCardProps> = ({ pet, showReleaseButton }) => {
   const [isReleaseModalOpen, setIsReleaseModalOpen] = useState(false);
 
   const { editPet } = useApi()
-  const { triggerRefresh, setPetUpdated } = usePetContext();
+  const { setPetUpdated } = usePetContext();
 
   useEffect(() => {
     const colorFrameMapping = (pet: Pet) => {

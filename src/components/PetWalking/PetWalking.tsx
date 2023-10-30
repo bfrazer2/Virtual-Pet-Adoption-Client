@@ -1,9 +1,6 @@
 //React Imports
 import { FC, useState, useEffect } from 'react';
 
-//MUI Joy Imports
-import { AspectRatio } from '@mui/joy';
-
 //Native Imports
 //Styles
 import styles from './PetWalking.module.scss';
