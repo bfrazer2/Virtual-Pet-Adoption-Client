@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 //MUI Imports
-import { Tabs, TabList, Tab, TabPanel } from '@mui/joy';
+import { Tabs, TabList, Tab, TabPanel, Typography } from '@mui/joy';
 import { tabClasses } from '@mui/joy/Tab';
 
 //Native Imports
@@ -22,10 +22,9 @@ import { AddPetForm } from '../AddPet/AddPetForm';
 
 export const RescueCenterMenu = () => {
 
-    const { petAdded, setPetAdded } = usePetContext();
+    const { petAdded, setPetAdded, petReleased, setPetReleased } = usePetContext();
     const [currentTab, setCurrentTab] = useState(0);
     const [showModal, setShowModal] = useState(false);
-    const [newPet, setNewPet] = useState(false);
 
     const { pets } = usePetContext();
 
@@ -34,10 +33,16 @@ export const RescueCenterMenu = () => {
         if (petAdded) {
             setCurrentTab(0); // Navigate to Kennels tab
             setShowModal(true); // Show confirmation modal
-            setNewPet(petAdded);
             setPetAdded(false); // Reset the petAdded flag
         }
     }, [petAdded, setPetAdded]);
+
+    // Check if a pet was deleted and navigate to Kennels tab
+    useEffect(() => {
+        if (petReleased) {
+            setCurrentTab(0); // Navigate to Kennels tab
+        }
+    }, [petReleased, setPetReleased]);
 
     const closeModal = () => {
         setShowModal(false);
@@ -108,7 +113,7 @@ export const RescueCenterMenu = () => {
                             classNames="fade"
                         >
                             <TabPanel value={1}>
-                                {/* ... (Your TabPanel content) */}
+                                <Typography>Shop Work in Progress</Typography>
                             </TabPanel>
                         </CSSTransition>
                     )}

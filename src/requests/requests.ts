@@ -8,7 +8,7 @@ export const useApi = () => {
   const getUserPets = async (): Promise<Pet[] | undefined> => {
     try {
       const accessToken = await getAccessTokenSilently();
-  
+
       const response = await fetch(`${BASE_PATH}/pets`, {
         method: 'GET',
         credentials: 'include',
@@ -17,7 +17,7 @@ export const useApi = () => {
           'Authorization': 'Bearer ' + accessToken,
         }
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
@@ -28,12 +28,12 @@ export const useApi = () => {
       console.error('Error:', error);
     }
   };
-  
+
   // Fetch a specific pet with its associated user
   const getSpecificPet = async (petId: number): Promise<Partial<Pet> | undefined> => {
     try {
       const accessToken = await getAccessTokenSilently();
-  
+
       const response = await fetch(`${BASE_PATH}/pets/${petId}`, {
         method: 'GET',
         credentials: 'include',
@@ -41,7 +41,7 @@ export const useApi = () => {
           'Authorization': 'Bearer ' + accessToken,
         }
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
@@ -52,12 +52,12 @@ export const useApi = () => {
       console.error('Error:', error);
     }
   };
-  
+
   // Create a new pet
-  const createPet = async (petData: Omit<Pet, 'id' | 'weight' |'hunger' |'thirst' | 'friendship' | 'favorite'>): Promise<Partial<Pet> | undefined> => {
+  const createPet = async (petData: Omit<Pet, 'id' | 'weight' | 'hunger' | 'thirst' | 'friendship' | 'favorite'>): Promise<Partial<Pet> | undefined> => {
     try {
       const accessToken = await getAccessTokenSilently();
-  
+
       const response = await fetch(`${BASE_PATH}/pets`, {
         method: 'POST',
         credentials: 'include',
@@ -67,7 +67,7 @@ export const useApi = () => {
         },
         body: JSON.stringify(petData)
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
@@ -78,12 +78,12 @@ export const useApi = () => {
       console.error('Error:', error);
     }
   };
-  
+
   // Delete a specific pet
   const deletePet = async (petId: number): Promise<string | undefined> => {
     try {
       const accessToken = await getAccessTokenSilently();
-  
+
       const response = await fetch(`${BASE_PATH}/pets/${petId}`, {
         method: 'DELETE',
         credentials: 'include',
@@ -91,7 +91,7 @@ export const useApi = () => {
           'Authorization': 'Bearer ' + accessToken,
         }
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
@@ -102,12 +102,12 @@ export const useApi = () => {
       console.error('Error:', error);
     }
   };
-  
+
   // Edit a specific pet
-  const editPet = async (petId: number, updatedData: Partial<Pet>): Promise<Partial<Pet> | undefined> => {
+  const editPet = async (petId: number, updatedData: Partial<Pet>): Promise<Pet | undefined> => {
     try {
       const accessToken = await getAccessTokenSilently();
-  
+
       const response = await fetch(`${BASE_PATH}/pets/${petId}`, {
         method: 'PUT',
         credentials: 'include',
@@ -117,7 +117,7 @@ export const useApi = () => {
         },
         body: JSON.stringify(updatedData)
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
