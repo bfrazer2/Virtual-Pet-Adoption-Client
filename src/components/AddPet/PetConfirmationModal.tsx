@@ -26,7 +26,7 @@ export const PetConfirmationModal: FC<PetConfirmationModalProps> = ({ isOpen, pe
         <Typography level="h2" color="success" sx={{ textAlign: 'center' }}>
           You rescued {pet.name}!
         </Typography>
-        <PetCard pet={pet} />
+        <PetCard pet={pet} showReleaseButton={false} />
         <Button color="success" onClick={() => onClose({}, "closeClick")}>Hooray!</Button>
       </div>
     </Modal>

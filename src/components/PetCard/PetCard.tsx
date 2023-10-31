@@ -18,10 +18,12 @@ import {
   Stack,
   LinearProgress
 } from '@mui/joy';
-import { Edit, Favorite } from '@mui/icons-material';
+import { Edit, Favorite, RemoveCircle } from '@mui/icons-material';
 import { CardActions } from '@mui/material';
 
 //Native Imports
+//Components
+import { ReleasePetModal } from '../ReleasePetModal/ReleasePetModal';
 //Requests
 import { useApi } from '../../requests/requests';
 //Context
@@ -33,14 +35,15 @@ import styles from './PetCard.module.scss';
 
 type PetCardProps = {
   pet: Pet;
+  showReleaseButton: boolean;
 }
 
-export const PetCard: FC<PetCardProps> = ({ pet }) => {
-  const [isFavorite, setIsFavorite] = useState(pet.favorite)
+export const PetCard: FC<PetCardProps> = ({ pet, showReleaseButton }) => {
   const [backgroundImageStyles, setBackgroundImageStyles] = useState({});
+  const [isReleaseModalOpen, setIsReleaseModalOpen] = useState(false);
 
   const { editPet } = useApi()
-  const { triggerRefresh } = usePetContext();
+  const { setPetUpdated } = usePetContext();
 
   useEffect(() => {
     const colorFrameMapping = (pet: Pet) => {
@@ -66,14 +69,12 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
     colorFrameMapping(pet);
   }, [pet]);
 
-
   const handleFavoriteToggle = async () => {
-    setIsFavorite(!isFavorite);
 
     try {
-      const newPet = await editPet(pet.id, { favorite: isFavorite });
+      const newPet = await editPet(pet.id, { favorite: !pet.favorite });
       if (newPet) {
-        triggerRefresh();
+        setPetUpdated(true);
       } else {
         console.error("Failed to set favorite.");
       }
@@ -91,7 +92,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
     try {
       const newPet = await editPet(pet.id, { hunger: newHunger });
       if (newPet) {
-        triggerRefresh();
+        setPetUpdated(true);
       } else {
         console.error("Failed to feed pet.");
       }
@@ -109,7 +110,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
     try {
       const newPet = await editPet(pet.id, { thirst: newThirst });
       if (newPet) {
-        triggerRefresh();
+        setPetUpdated(true);
       } else {
         console.error("Failed to give pet water.");
       }
@@ -127,7 +128,7 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
     try {
       const newPet = await editPet(pet.id, { friendship: newFriendship });
       if (newPet) {
-        triggerRefresh();
+        setPetUpdated(true);
       } else {
         console.error("Failed to interact with pet.");
       }
@@ -151,151 +152,180 @@ export const PetCard: FC<PetCardProps> = ({ pet }) => {
     }
   };
 
+  const handleReleaseModal = () => {
+    setIsReleaseModalOpen(true);
+  }
+
+  const handleCloseReleaseModal = () => {
+    setIsReleaseModalOpen(false);
+  };
+
   const buttonStyling = { ml: 'auto', alignSelf: 'center', fontSize: '24px', fontWeight: 600, width: '33%', padding: '2px', }
 
   return (
-    <Card variant="outlined" sx={{ minWidth: 250, margin: 0 }}>
-      <div>
-        <Typography level="title-lg">{pet.name}</Typography>
-        <Typography level="body-sm">{pet.breed}</Typography>
-        <IconButton
-          aria-label="Favorite This Pet"
-          variant="plain"
-          color="neutral"
-          size="sm"
-          sx={{ position: 'absolute', top: '0.875rem', right: '0.5rem' }}
-        >
-          <Edit />
-        </IconButton>
-      </div>
-      <AspectRatio ratio="1">
-        <div className={styles.spriteAnimation} style={backgroundImageStyles} />
-      </AspectRatio >
-      <CardContent orientation="vertical">
-        <CardActions sx={{ display: 'flex', padding: '8px 0 8px 0', gap: '4px' }}>
+    <>
+      <Card variant="outlined" sx={{ minWidth: 250, margin: 0 }}>
+        <div>
+          <Typography level="title-lg">{pet.name}</Typography>
+          <Typography level="body-sm">{pet.breed}</Typography>
           <IconButton
             aria-label="Favorite This Pet"
-            variant={isFavorite ? 'solid' : 'outlined'}
+            variant="plain"
+            color="neutral"
             size="sm"
-            sx={{
-              position: 'absolute', top: '0.875rem', right: '0.5rem', color: 'rgb(227,27,35)'
-            }}
-            onClick={handleFavoriteToggle}
+            sx={{ position: 'absolute', top: '0.875rem', right: '0.5rem' }}
           >
-            <Favorite />
+            <Edit />
           </IconButton>
-          <div className={styles.interactionButtons}>
-            <Button
-              variant="soft"
-              size="md"
-              color="success"
-              aria-label="Explore Bahamas Islands"
-              sx={{ ...buttonStyling, margin: '0' }}
-              onClick={handlePet}
+        </div>
+        <AspectRatio ratio="1">
+          <div className={styles.spriteAnimation} style={backgroundImageStyles} />
+        </AspectRatio >
+        <CardContent orientation="vertical">
+          <CardActions sx={{ display: 'flex', padding: '8px 0 8px 0', gap: '4px' }}>
+            <IconButton
+              aria-label="Favorite This Pet"
+              variant={pet.favorite ? 'solid' : 'outlined'}
+              size="sm"
+              sx={{
+                position: 'absolute', top: '0.875rem', right: '0.5rem', color: 'rgb(227,27,35)'
+              }}
+              onClick={handleFavoriteToggle}
             >
-              Pet
-            </Button>
-            <Button
-              variant="soft"
-              size="md"
-              color="success"
-              aria-label="Explore Bahamas Islands"
-              sx={buttonStyling}
-              onClick={handleFeed}
-            >
-              Feed
-            </Button>
-            <Button
-              variant="soft"
-              size="md"
-              color="success"
-              aria-label="Explore Bahamas Islands"
-              sx={buttonStyling}
-              onClick={handleWater}
-            >
-              Water
-            </Button>
-          </div>
-        </CardActions>
-        <AccordionGroup
-          variant="outlined"
-          transition="0.2s"
-          sx={{
-            maxWidth: 400,
-            borderRadius: 'lg',
-            [`& .${accordionSummaryClasses.button}:hover`]: {
-              bgcolor: 'transparent',
-            },
-            [`& .${accordionDetailsClasses.content}`]: {
-              boxShadow: (theme) => `inset 0 1px ${theme.vars.palette.divider}`,
-              [`&.${accordionDetailsClasses.expanded}`]: {
-                paddingBlock: '0.75rem',
-              },
-            },
-          }}
-        >
-          <Accordion>
-            <AccordionSummary>
-              <Typography
-                fontWeight="xl"
-                textColor="common.black"
-                sx={{ zIndex: '1000' }}
+              <Favorite />
+            </IconButton>
+            {showReleaseButton ?
+              <IconButton
+                aria-label="Release This Pet"
+                size="sm"
+                sx={{
+                  position: 'absolute', top: '0.875rem', right: '3rem', color: 'rgb(227,27,35)'
+                }}
+                onClick={handleReleaseModal}
               >
-                Health Chart
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails variant="soft">
-              <Stack spacing={2} sx={{ flex: 1 }}>
-                <LinearProgress
-                  determinate
-                  value={pet.hunger}
-                  thickness={20}
-                  color={getWellbeingColor(pet.hunger)}
-                  sx={{ boxShadow: 'sm' }}>
-                  <Typography
-                    level="body-xs"
-                    fontWeight="xl"
-                    textColor="common.black"
-                    sx={{ zIndex: '1000' }}
-                  >
-                    Hunger: {pet.hunger}
-                  </Typography>
-                </LinearProgress>
-                <LinearProgress
-                  determinate
-                  value={pet.thirst}
-                  thickness={20}
-                  color={getWellbeingColor(pet.thirst)}
-                  sx={{ boxShadow: 'sm' }}>
-                  <Typography
-                    level="body-xs"
-                    fontWeight="xl"
-                    textColor="common.black"
-                    sx={{ zIndex: '1000' }}
-                  >
-                    Thirst: {pet.thirst}
-                  </Typography>
-                </LinearProgress>
-                <LinearProgress
-                  determinate
-                  value={pet.friendship}
-                  thickness={20}
-                  color={getWellbeingColor(pet.friendship)}
-                  sx={{ boxShadow: 'sm' }}>
-                  <Typography
-                    level="body-xs"
-                    fontWeight="xl"
-                    textColor="common.black"
-                    sx={{ zIndex: '1000' }}
-                  >
-                    Friendship: {pet.friendship}
-                  </Typography>
-                </LinearProgress>
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-        </AccordionGroup>
-      </CardContent>
-    </Card>
+                <RemoveCircle />
+              </IconButton>
+              : null}
+            <div className={styles.interactionButtons}>
+              <Button
+                variant="soft"
+                size="md"
+                color="success"
+                aria-label="Explore Bahamas Islands"
+                sx={{ ...buttonStyling, margin: '0' }}
+                onClick={handlePet}
+              >
+                Pet
+              </Button>
+              <Button
+                variant="soft"
+                size="md"
+                color="success"
+                aria-label="Explore Bahamas Islands"
+                sx={buttonStyling}
+                onClick={handleFeed}
+              >
+                Feed
+              </Button>
+              <Button
+                variant="soft"
+                size="md"
+                color="success"
+                aria-label="Explore Bahamas Islands"
+                sx={buttonStyling}
+                onClick={handleWater}
+              >
+                Water
+              </Button>
+            </div>
+          </CardActions>
+          <AccordionGroup
+            variant="outlined"
+            transition="0.2s"
+            sx={{
+              maxWidth: 400,
+              borderRadius: 'lg',
+              [`& .${accordionSummaryClasses.button}:hover`]: {
+                bgcolor: 'transparent',
+              },
+              [`& .${accordionDetailsClasses.content}`]: {
+                boxShadow: (theme) => `inset 0 1px ${theme.vars.palette.divider}`,
+                [`&.${accordionDetailsClasses.expanded}`]: {
+                  paddingBlock: '0.75rem',
+                },
+              },
+            }}
+          >
+            <Accordion>
+              <AccordionSummary>
+                <Typography
+                  fontWeight="xl"
+                  textColor="common.black"
+                  sx={{ zIndex: '1000' }}
+                >
+                  Health Chart
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails variant="soft">
+                <Stack spacing={2} sx={{ flex: 1 }}>
+                  <LinearProgress
+                    determinate
+                    value={pet.hunger}
+                    thickness={20}
+                    color={getWellbeingColor(pet.hunger)}
+                    sx={{ boxShadow: 'sm' }}>
+                    <Typography
+                      level="body-xs"
+                      fontWeight="xl"
+                      textColor="common.black"
+                      sx={{ zIndex: '1000' }}
+                    >
+                      Hunger: {pet.hunger}
+                    </Typography>
+                  </LinearProgress>
+                  <LinearProgress
+                    determinate
+                    value={pet.thirst}
+                    thickness={20}
+                    color={getWellbeingColor(pet.thirst)}
+                    sx={{ boxShadow: 'sm' }}>
+                    <Typography
+                      level="body-xs"
+                      fontWeight="xl"
+                      textColor="common.black"
+                      sx={{ zIndex: '1000' }}
+                    >
+                      Thirst: {pet.thirst}
+                    </Typography>
+                  </LinearProgress>
+                  <LinearProgress
+                    determinate
+                    value={pet.friendship}
+                    thickness={20}
+                    color={getWellbeingColor(pet.friendship)}
+                    sx={{ boxShadow: 'sm' }}>
+                    <Typography
+                      level="body-xs"
+                      fontWeight="xl"
+                      textColor="common.black"
+                      sx={{ zIndex: '1000' }}
+                    >
+                      Friendship: {pet.friendship}
+                    </Typography>
+                  </LinearProgress>
+                </Stack>
+              </AccordionDetails>
+            </Accordion>
+          </AccordionGroup>
+        </CardContent>
+      </Card>
+      {isReleaseModalOpen && pet ?
+        <ReleasePetModal
+          isOpen={isReleaseModalOpen}
+          pet={pet}
+          onClose={handleCloseReleaseModal}
+        />
+        : null}
+    </>
   );
 };

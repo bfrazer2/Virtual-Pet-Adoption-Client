@@ -43,11 +43,34 @@ export const AddPetForm = () => {
     };
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value);
+        const inputValue = event.target.value;
+
+        // Ensure input is non-numeric
+        if (/^\d+$/.test(inputValue)) {
+            return; // Exit if numeric
+        }
+
+        if (event.target.value.length > 16) {
+            setName(event.target.value.slice(0, 16));
+        } else {
+            setName(event.target.value);
+        }
     };
 
     const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAge(event.target.value);
+        const inputValue = event.target.value;
+
+        // Ensure input is either numeric or blank
+        if (inputValue !== "" && !/^\d+$/.test(inputValue)) {
+            return; // Exit if non-numeric and not blank
+        }
+
+        // Allow only up to 2 digits
+        if (inputValue.length > 2) {
+            setAge(inputValue.slice(0, 2));
+        } else {
+            setAge(inputValue);
+        }
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

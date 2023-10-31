@@ -13,18 +13,19 @@ import { usePetContext } from '../../context/PetProvider';
 export const RescueCenter = () => {
   const { getUserPets } = useApi();
 
-  const { setPets, pets, triggerRefresh } = usePetContext();
+  const { setPets, pets, petReleased, petAdded, petUpdated, setPetUpdated, setSelectedPet } = usePetContext();
 
   useEffect(() => {
     const fetchPets = async () => {
       const fetchedPets = await getUserPets();
       if (fetchedPets) {
         setPets(fetchedPets);
+        setPetUpdated(false);
       }
     };
     fetchPets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [triggerRefresh, setPets]);
+  }, [petReleased, petAdded, petUpdated]);
 
   const petCardTheme = extendTheme({
     colorSchemes: {
@@ -54,9 +55,14 @@ export const RescueCenter = () => {
     <Grid container spacing={3} sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}>
       {pets.slice().reverse().map((pet, index) => (
         <Grid xs='auto' key={index}>
-          <CssVarsProvider theme={petCardTheme}>
-            <PetCard pet={pet} />
-          </CssVarsProvider>
+          <div onClick={(event) => {
+            event.stopPropagation();
+            setSelectedPet(pet);
+          }}>
+            <CssVarsProvider theme={petCardTheme}>
+              <PetCard pet={pet} showReleaseButton={true} />
+            </CssVarsProvider>
+          </div>
         </Grid>
       ))}
     </Grid>

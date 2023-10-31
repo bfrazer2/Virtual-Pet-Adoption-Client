@@ -7,6 +7,12 @@ interface PetContextValue {
   triggerRefresh: () => void;
   pets: Pet[];
   setPets: (pets: Pet[]) => void;
+  petReleased: boolean;
+  setPetReleased: (value: boolean) => void;
+  petUpdated: boolean;
+  setPetUpdated: (value: boolean) => void;
+  selectedPet: Pet;
+  setSelectedPet: (value: Pet) => void;
 }
 
 const PetContext = React.createContext<PetContextValue | undefined>(undefined);
@@ -22,14 +28,29 @@ export const usePetContext = () => {
 export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [refreshPets, setRefreshPets] = useState(false);
   const [petAdded, setPetAdded] = useState(false);
+  const [petReleased, setPetReleased] = useState(false);
+  const [petUpdated, setPetUpdated] = useState(false);
   const [pets, setPets] = useState<Pet[]>([]);
+  const [selectedPet, setSelectedPet] = useState<Pet>(pets.slice().reverse()[0]);
 
   const triggerRefresh = () => {
     setRefreshPets(!refreshPets);
   }
 
   return (
-    <PetContext.Provider value={{ petAdded, setPetAdded, triggerRefresh, pets, setPets }}>
+    <PetContext.Provider value={{
+      petAdded,
+      setPetAdded,
+      triggerRefresh,
+      pets,
+      setPets,
+      petReleased,
+      setPetReleased,
+      petUpdated,
+      setPetUpdated,
+      selectedPet,
+      setSelectedPet,
+    }}>
       {children}
     </PetContext.Provider>
   );

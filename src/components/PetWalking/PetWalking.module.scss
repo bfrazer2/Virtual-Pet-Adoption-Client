@@ -1,0 +1,39 @@
+.animal {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  background-repeat: no-repeat;
+}
+
+.spriteAnimation {
+  background-repeat: no-repeat;
+  background-position-x: center;
+  width: 100%;
+  height: 100%;
+  background-position-y: var(--yPos);
+  background-size: cover;
+  z-index: 3000;
+  animation: play .8s infinite;
+}
+
+@keyframes play {
+  0% {
+    background-image: var(--tile0);
+  }
+
+  25% {
+    background-image: var(--tile1);
+  }
+
+  50% {
+    background-image: var(--tile2);
+  }
+
+  75% {
+    background-image: var(--tile1);
+  }
+
+  100% {
+    background-image: var(--tile0);
+  }
+}

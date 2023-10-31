@@ -11,3 +11,9 @@
   margin: auto;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
+.ctaButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
